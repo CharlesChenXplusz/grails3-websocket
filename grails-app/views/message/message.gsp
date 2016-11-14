@@ -16,7 +16,13 @@
                     print(message.body);
                 });
 
-//                client.subscribe("/app/reply");
+                client.subscribe("/app/reply", function (message) {
+                    print(message.body);
+                });
+
+                client.subscribe("/user/queue/replyToYourself", function (message) {
+                    print(message.body);
+                });
             });
 
             $("#helloButton").click(function () {

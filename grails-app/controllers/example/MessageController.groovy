@@ -6,6 +6,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.messaging.simp.annotation.SubscribeMapping
 
 import javax.servlet.http.HttpServletResponse
+import java.security.Principal
 
 /**
  * Created by charles.chen on 5/9/16.
@@ -20,13 +21,13 @@ class MessageController extends BaseController {
 
     @MessageMapping("/hello")
     @SendTo("/topic/hello")
-    protected String replyToToTopic(String content) {
-        return "Someone says : [${content}]!"
+    protected String replyToToTopic(String content, Principal principal) {
+        return "${principal.principal.username} says : [${content}]!"
     }
 
     @SubscribeMapping("/reply")
-    protected String replyToYourSelf(String content) {
-        return "You says : [$content]!"
+    protected String replyToYourSelf() {
+        return "Welcome you!"
     }
 
     def broadcast(String content) {
@@ -34,4 +35,8 @@ class MessageController extends BaseController {
         render(status: HttpServletResponse.SC_OK)
     }
 
+    def sendToUser(String user, String content) {
+        brokerMessagingTemplate.convertAndSendToUser(user, '/queue/replyToYourself', content)
+        render(status: HttpServletResponse.SC_OK)
+    }
 }

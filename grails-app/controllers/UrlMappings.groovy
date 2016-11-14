@@ -15,5 +15,6 @@ class UrlMappings {
 //        "/login"(controller: 'login', action: 'doLogin', method: 'POST')
         "/message"(controller: 'message', action: 'index', method: 'GET')
         "/message/broadcast"(controller: 'message', action: 'broadcast', method: 'GET')
+        "/message/sendToUser"(controller: 'message', action: 'sendToUser', method: 'GET')
     }
 }
