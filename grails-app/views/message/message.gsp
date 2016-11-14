@@ -23,6 +23,10 @@
                 client.subscribe("/user/queue/replyToYourself", function (message) {
                     print(message.body);
                 });
+
+                client.subscribe("/user/queue/exchangePrivate", function (message) {
+                    print(message.body);
+                });
             });
 
             $("#helloButton").click(function () {
@@ -30,7 +34,7 @@
             });
 
             $("#singleButton").click(function () {
-                client.send("/app/reply", {}, JSON.stringify($('#msg').val()));
+                client.send("/app/sendToUserPrivate-userb", {}, JSON.stringify($('#msg').val()));
 
             });
 
@@ -46,7 +50,10 @@
 <body>
 <input type="text" name="msg" id="msg">
 <button id="helloButton">hello</button>
-<button id="singleButton">single</button>
+
+<br>
+
+<button id="singleButton">send to user b</button>
 
 <div id="helloDiv"></div>
 </body>

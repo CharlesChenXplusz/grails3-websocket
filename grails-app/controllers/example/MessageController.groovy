@@ -1,6 +1,8 @@
 package example
 
+import org.springframework.messaging.handler.annotation.DestinationVariable
 import org.springframework.messaging.handler.annotation.MessageMapping
+import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.messaging.handler.annotation.SendTo
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.messaging.simp.annotation.SubscribeMapping
@@ -38,5 +40,11 @@ class MessageController extends BaseController {
     def sendToUser(String user, String content) {
         brokerMessagingTemplate.convertAndSendToUser(user, '/queue/replyToYourself', content)
         render(status: HttpServletResponse.SC_OK)
+    }
+
+    @MessageMapping("/sendToUserPrivate-{username}")
+    protected void userPrivate(@Payload String message,
+                               @DestinationVariable('username') String username, Principal principal) {
+        brokerMessagingTemplate.convertAndSendToUser(username, '/queue/exchangePrivate', message)
     }
 }
