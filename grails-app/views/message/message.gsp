@@ -13,10 +13,10 @@
 
             client.connect({}, function () {
                 client.subscribe("/topic/hello", function (message) {
-                    print(JSON.parse(message.body));
+                    print(message.body);
                 });
 
-                client.subscribe("/app/reply");
+//                client.subscribe("/app/reply");
             });
 
             $("#helloButton").click(function () {
